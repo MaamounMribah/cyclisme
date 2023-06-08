@@ -1,0 +1,27 @@
+
+
+
+
+
+
+
+
+
+<form (submit)="sendEmail()">
+    <label for="to">To:</label>
+    <input type="email" [(ngModel)]="registerSendMailData.to" required name="to" class="form-control" id="to" placeholder="to">
+  
+    <br>
+    <label for="subject">Subject:</label>
+    <input type="text" [(ngModel)]="registerSendMailData.subject" required name="subject" class="form-control" id="subject" placeholder="subject">
+  
+    <br>
+    <label for="body">Body:</label>
+    <textarea [(ngModel)]="registerSendMailData.body" required name="body" class="form-control" id="body" placeholder="body"></textarea>
+    <br>
+    <label for="files">Attachment:</label>
+    <input type="file" id="files" (change)="handleFileInput($event)" required class="form-control"  multiple>
+
+    <br>
+    <button type="submit">Send</button>
+  </form>

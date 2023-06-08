@@ -1,0 +1,560 @@
+<div class="body d-flex py-lg-3 py-md-2">
+    <div class="container-xxl">
+        <div class="row align-items-center">
+            <div class="border-0 mb-4">
+                <div
+                    class="card-header p-0 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
+                    <h3 class="fw-bold py-3 mb-0">Liste Competition </h3>
+                    <div class="d-flex py-2 project-tab flex-wrap w-sm-100">
+
+                        <!-- 
+                        <button *ngIf="isresequipe()" type="button" class="btn btn-dark w-sm-100" data-bs-toggle="modal"
+                        data-bs-target="#depadd"><i class="icofont-plus-circle me-2 fs-6"></i>Ajouter Compétition</button> -->
+
+
+                        <!-- *ngIf="ok==true"  -->
+                        <button *ngIf="isresequipe()" type="button" class="btn btn-dark w-sm-100" data-bs-toggle="modal"
+                            data-bs-target="#createproject"><i class="icofont-plus-circle me-2 fs-6"></i>Ajouter
+                            Compétition</button>
+
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Row end  -->
+        <div class="row align-items-center">
+            <div class="col-lg-12 col-md-12 flex-column">
+                <div class="tab-content mt-4">
+                    <div class="tab-pane fade show active" id="All-list" role="tabpanel">
+                        <div class="row g-3 gy-5 py-3 row-deck">
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6"
+                                *ngFor="let c of listcompetition">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center justify-content-between mt-5">
+                                            <div class="lesson_name">
+                                                <div class="project-block light-info-bg">
+                                                    <i class="icofont-paint"></i>
+                                                </div>
+                                                <span class="small text-muted project_name fw-bold"> Social Geek Made
+                                                </span>
+                                                <h6 class="mb-0 fw-bold  fs-6  mb-2"
+                                                    [routerLink]="['/home/detailCompetition',c.id]">{{c.nomcompetition}}
+                                                </h6>
+                                            </div>
+                                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                                <button type="button" class="btn btn-outline-secondary"
+                                                    data-bs-toggle="modal" data-bs-target="#editproject"><i
+                                                        class="icofont-edit text-success" (click)="open1(c)"></i></button>
+                                                <button type="button" class="btn btn-outline-secondary"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteproject"
+                                                    (click)="deletecomp(c.id)"><i
+                                                        class="icofont-ui-delete text-danger"></i></button>
+                                                        &nbsp;&nbsp;
+                                                        <!-- <div class="text-truncate">{{c.confirmation}} </div> -->
+                                                <span *ngIf="c.confirmation=='en cours'" class="badge bg-danger" (click)="confirmercompetition(c.id)">Confirmer</span>
+                                                <span *ngIf="c.confirmation=='confirmée'" class="badge bg-success">Confirmée</span>      
+                                            </div>
+                                             <!-- <div class="flex-fill ms-4 text-truncate">
+                                                <div class="text-truncate">{{c.confirmation}} </div>
+                                                <span class="badge bg-success" *ngIf="c.confirmation=='en cours'"
+                                                    (click)="confirmercompetition(c.id)"> Confirmer</span>
+                                        </div> -->
+                                        </div>
+                                        
+                                        <div class="row g-2 pt-4">
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="icofont-paper-clip"></i>
+                                                    <span class="ms-2">{{c.lieu}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="icofont-sand-clock"></i>
+                                                    <span class="ms-2">Distance: {{c.distance}}</span>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="icofont-group-students "></i>
+                                                    <span class="ms-2">{{c.genre}}</span>
+                                                </div>
+                                            </div> -->
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="icofont-ui-text-chat"></i>
+                                                    <span class="ms-2">Date et heure : {{c.date}} à {{c.heure}} </span>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="icofont-ui-text-chat"></i>
+                                                    <span class="ms-2">point_départ: {{c.pointdepart}}</span>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <i class="icofont-ui-text-chat"></i>
+                                                    <span class="ms-2">point_arrivée: {{c.pointarrive}}</span>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="icofont-ui-text-chat"></i>
+                                                    <span class="ms-2">categorie_Coureur: {{c.categoriecoureur}}</span>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <i class="icofont-ui-text-chat"></i>
+                                                    <span class="ms-2">genre: {{c.genre}}</span>
+                                                </div>
+                                        </div>
+                                        <div class="dividers-block"></div>
+                                        <div class="d-flex align-items-center justify-content-between mb-2">
+                                            <h4 class="small fw-bold mb-0"></h4>
+                                            <a class="btn btn-dark btn-sm mt-1" data-bs-toggle="modal" (click)="open(c)"
+                                            data-bs-target="#depadd"><i
+                                                    class="icofont-invisible me-2 fs-6"></i>Affecter arbitre</a>
+                                            <!-- <span class="small light-danger-bg  p-1 rounded"><i
+                                                    class="icofont-ui-clock"></i> </span> -->
+                                        </div>
+
+                                        <div class="d-flex flex-wrap align-items-center ct-btn-set">
+                                            
+
+                                            <a class="btn btn-dark btn-sm mt-1"
+                                                [routerLink]="['/home/resultatcompetition',c.id]"><i
+                                                    class="icofont-invisible me-2 fs-6"></i>Resultat</a>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Ajout -->
+
+
+<div class="modal fade " id="createproject" tabindex="-1" aria-modal="true" role="dialog" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title  fw-bold" id="createprojectlLabel"> Ajouter Compétition</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="form">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput77" class="form-label">Nom Du Compétition</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput77"
+                            formControlName="nomcompetition" placeholder="Explain what the Project Name"  [ngClass]="{ 'is-invalid': submitted && f['nomcompetition'].errors }">
+                  
+                            <div *ngIf="submitted && f['nomcompetition'].errors" class="invalid-feedback">
+                                <div    *ngIf="f['nomcompetition'].errors['required']">nomcompetition est requis.</div>
+        
+        
+                            </div>
+                  
+                        </div>
+                    <div class="mb-3">
+                        <label class="form-label">Categorie Velo</label>
+                        <select class="form-select" aria-label="Default select Project Category"
+                            formControlName="id_categorie" [ngClass]="{ 'is-invalid': submitted && f['id_categorie'].errors }">
+                            <div *ngIf="submitted && f['id_categorie'].errors" class="invalid-feedback">
+                                <div    *ngIf="f['id_categorie'].errors['required']">Categorie Velo est requis.</div>
+        
+        
+                            </div>
+                            <option selected="" *ngFor="let e of listcategorievelo" [value]="e.id">{{e.type}}</option>
+
+                        </select>
+                    </div>
+                    <!-- <div class="mb-3">
+                        <label class="form-label">Organisateur</label>
+                        -->
+                        <!-- <select class="form-select" aria-label="Default select Project Category"
+                            formControlName="id_equipefederation">
+                            <option selected="" *ngFor="let e of listequipe" [value]="e.id">{{e.nom}}</option>
+
+                        </select>
+                    </div>  -->
+                    <div class="deadline-form">
+
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <label for="datepickerded" class="form-label">date de Compétition</label>
+                                <input type="date" class="form-control" id="datepickerded" formControlName="date" [ngClass]="{ 'is-invalid': submitted && f['date'].errors }">
+                                <div *ngIf="submitted && f['date'].errors" class="invalid-feedback">
+                                    <div    *ngIf="f['date'].errors['required']">date est requis.</div>
+                                    <div    *ngIf="f['date'].errors['pattern']">    La date doit être au format "yyyy-mm-dd". </div> </div>
+                            
+                            
+                            </div>
+                            <div class="col">
+                                <label for="datepickerded" class="form-label">heure</label>
+                                <input type="date" class="form-control" id="datepickerded" formControlName="heure" [ngClass]="{ 'is-invalid': submitted && f['heure'].errors }">
+                                <div *ngIf="submitted && f['heure'].errors" class="invalid-feedback">
+                                    <div    *ngIf="f['heure'].errors['required']">heure est requis.</div>
+                                    </div>
+                            
+                            
+                            </div>
+                            <div class="col">
+                                <label for="datepickerdedone" class="form-label">Lieu du Compétition</label>
+                                <input type="text" class="form-control" id="datepickerdedone" formControlName="lieu"  [ngClass]="{ 'is-invalid': submitted && f['lieu'].errors }">
+                            
+                                <div *ngIf="submitted && f['lieu'].errors" class="invalid-feedback">
+                                    <div    *ngIf="f['lieu'].errors['required']">lieu est requis.</div></div>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <label for="datepickerded" class="form-label">point depart</label>
+                                <input type="text" class="form-control" id="datepickerded"
+                                    formControlName="pointdepart"  [ngClass]="{ 'is-invalid': submitted && f['pointdepart'].errors }">
+                                    <div *ngIf="submitted && f['pointdepart'].errors" class="invalid-feedback">
+                                        <div    *ngIf="f['pointdepart'].errors['required']">pointdepart est requis.</div></div>
+                            </div>
+                            <div class="col">
+                                <label for="datepickerdedone" class="form-label">point arrivee</label>
+                                <input type="text" class="form-control" id="datepickerdedone"
+                                    formControlName="pointarrive"   [ngClass]="{ 'is-invalid': submitted && f['pointarrive'].errors }">
+                          
+                                    <div *ngIf="submitted && f['pointarrive'].errors" class="invalid-feedback">
+                                        <div    *ngIf="f['pointarrive'].errors['required']">pointarrive est requis.</div></div>
+                                </div>
+                        </div>
+                        
+                   <div class="row g-3 mb-3">
+                
+                    <div class="col-sm">
+                        <label for="formFileMultipleone" class="form-label">Categorie Coureur</label>
+                        <select class="form-select" aria-label="Default select Priority" formControlName="categoriecoureur" [ngClass]="{ 'is-invalid': submitted && f['categoriecoureur'].errors }">
+                            <div *ngIf="submitted && f['categoriecoureur'].errors" class="invalid-feedback">
+                                <div    *ngIf="f['categoriecoureur'].errors['required']">categoriecoureur est requis.</div></div>
+                           
+                           
+                            <option selected="ecole">ecole</option>
+                            <option value="jeune_minime">jeune_minime </option>
+                            
+                            <option value="minime">minime</option>
+                            <option value="cadet">cadet</option>
+    
+                            <option value="junior">junior </option>
+                            <option value="espoir">espoir </option>
+    
+                            <option value="sénior">sénior </option>
+                            <option value="master1">master1 </option>
+                            <option value="master2">master2 </option>
+                            <option value="master3">master3 </option>
+                        </select>
+                    </div>  
+                    <div class="col-sm">
+                        <label for="formFileMultipleone" class="form-label">Genre</label>
+                        <select formControlName="genre" class="form-select" aria-label="Default select Priority" [ngClass]="{ 'is-invalid': submitted && f['genre'].errors }">
+                           
+                            <div *ngIf="submitted && f['genre'].errors" class="invalid-feedback">
+                                <div    *ngIf="f['genre'].errors['required']">genre est requis.</div></div>
+                           
+                            <option value="Feminin">Femme</option>
+                            <option value="Masculin">Homme </option>
+                            
+                           
+                        </select>
+                    </div>  
+                </div> 
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <label for="datepickerded" class="form-label">Distance</label>
+                                <input type="text" class="form-control" id="datepickerded" formControlName="distance" [ngClass]="{ 'is-invalid': submitted && f['distance'].errors }">
+                           
+                                <div *ngIf="submitted && f['distance'].errors" class="invalid-feedback">
+                                    <div    *ngIf="f['distance'].errors['required']">distance est requis.</div>
+                                    <div    *ngIf="f['distance'].errors['pattern']"> La distance doit être un nombre entier.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="row g-3 mb-3">
+                        <div class="col">
+                          <label for="datepickerded" class="form-label">genre</label>
+                          <input type="text" class="form-control" id="datepickerded" formControlName="genre">
+                        </div>
+                        
+                      </div> -->
+                        <!-- <div class="row g-3 mb-3">
+
+                            <div class="col-sm-12">
+                                <label for="formFileMultipleone" class="form-label">Arbitre</label>
+                                <select class="form-select" multiple="" aria-label="Default select Priority"
+                                    formControlName="COMP_ARBITRE">
+                                    <option *ngFor="let a of listarbitre" [value]="a.id"> {{a.nom}} {{a.prenom}}
+                                    </option>
+
+                                </select>
+                            </div>
+                        </div> -->
+                    </div>
+                   
+
+                   
+                    
+                
+          
+           
+                   
+               
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" (click)="savecompetition()"
+                    data-bs-dismiss="modal">Ajouter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- updatecomp -->
+
+
+<div class="modal fade " id="editproject" tabindex="-1" aria-modal="true" role="dialog" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title  fw-bold" id="createprojectlLabel"> Modifier Compétition</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formbuilderupdate">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput77" class="form-label">Nom Du Compétition</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput77"
+                            formControlName="nomcompetition" placeholder="Explain what the Project Name">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Categorie Velo</label>
+                        <select class="form-select" aria-label="Default select Project Category"
+                            formControlName="id_categorie">
+                            <option selected="" *ngFor="let e of listcategorievelo" [value]="e.id">{{e.type}}</option>
+
+                        </select>
+                    </div>
+                    <!-- <div class="mb-3">
+                        <label class="form-label">Organisateur</label>
+                        -->
+                        <!-- <select class="form-select" aria-label="Default select Project Category"
+                            formControlName="id_equipefederation">
+                            <option selected="" *ngFor="let e of listequipe" [value]="e.id">{{e.nom}}</option>
+
+                        </select>
+                    </div>  -->
+                    <div class="deadline-form">
+
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <label for="datepickerded" class="form-label">date de Compétition</label>
+                                <input type="date" class="form-control" id="datepickerded" formControlName="date">
+                            </div>
+                            <div class="col">
+                                <label for="datepickerded" class="form-label">heure de Compétition</label>
+                                <input type="date" class="form-control" id="datepickerded" formControlName="heure">
+                            </div>
+                            <div class="col">
+                                <label for="datepickerdedone" class="form-label">Lieu du Compétition</label>
+                                <input type="text" class="form-control" id="datepickerdedone" formControlName="lieu">
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <label for="datepickerded" class="form-label">point depart</label>
+                                <input type="text" class="form-control" id="datepickerded"
+                                    formControlName="pointdepart">
+                            </div>
+                            <div class="col">
+                                <label for="datepickerdedone" class="form-label">point arrivee</label>
+                                <input type="text" class="form-control" id="datepickerdedone"
+                                    formControlName="pointarrive">
+                            </div>
+                        </div>
+                        
+                   <div class="row g-3 mb-3">
+                
+                    <div class="col-sm">
+                        <label for="formFileMultipleone" class="form-label">Categorie Coureur</label>
+                        <select class="form-select" aria-label="Default select Priority" formControlName="categoriecoureur">
+                            <option selected="ecole">ecole</option>
+                            <option value="jeune_minime">jeune_minime </option>
+                            
+                            <option value="minime">minime</option>
+                            <option value="cadet">cadet</option>
+    
+                            <option value="junior">junior </option>
+                            <option value="espoir">espoir </option>
+    
+                            <option value="sénior">sénior </option>
+                            <option value="master1">master1 </option>
+                            <option value="master2">master2 </option>
+                            <option value="master3">master3 </option>
+                        </select>
+                    </div>  
+                    <div class="col-sm">
+                        <label for="formFileMultipleone" class="form-label">Genre</label>
+                        <select formControlName="genre" class="form-select" aria-label="Default select Priority">
+                            <option selected="Feminin">Feminin</option>
+                            <option value="Masculin">Masculin </option>
+                            
+                           
+                        </select>
+                    </div>  
+                </div> 
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <label for="datepickerded" class="form-label">Distance</label>
+                                <input type="text" class="form-control" id="datepickerded" formControlName="distance">
+                            </div>
+                        </div>
+                        <!-- <div class="row g-3 mb-3">
+                        <div class="col">
+                          <label for="datepickerded" class="form-label">genre</label>
+                          <input type="text" class="form-control" id="datepickerded" formControlName="genre">
+                        </div>
+                        
+                      </div> -->
+                        <!-- <div class="row g-3 mb-3">
+
+                            <div class="col-sm-12">
+                                <label for="formFileMultipleone" class="form-label">Arbitre</label>
+                                <select class="form-select" multiple="" aria-label="Default select Priority"
+                                    formControlName="COMP_ARBITRE">
+                                    <option *ngFor="let a of listarbitre" [value]="a.id"> {{a.nom}} {{a.prenom}}
+                                    </option>
+
+                                </select>
+                            </div>
+                        </div> -->
+                    </div>
+                   
+
+                   
+                    
+                
+          
+<!--            
+                    <div class="mb-3">
+                <label for="exampleFormControlTextarea78" class="form-label">Description </label>
+                <textarea class="form-control" id="exampleFormControlTextarea78" rows="3" placeholder="Add any extra details about the request"></textarea>
+            </div> -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
+                <button type="button" class="btn btn-primary" (click)="updatecomp()"
+                    data-bs-dismiss="modal">Modifier</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!-- affecter coureur  -->
+<div class="modal fade " id="depadd" tabindex="-1" aria-modal="true" role="dialog" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+       
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title  fw-bold" id="depaddLabel"> Affecter Arbitre </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="dossardsform">
+              
+              
+                <!-- <div class="mb-3">
+                    <label class="form-label">Equipe</label>
+                  
+<select class="form-select"  aria-label="Default select Project Category" (change)="GETALLCoureurdossards($event)"  >
+                        <option selected="" *ngFor="let e of listequipe" [value]="e.id">{{e.nom}}</option>
+                        
+                    </select>
+                </div> -->
+ <!-- <div class="mb-3">
+                <label class="form-label">Choisir Compétition</label>
+                <select class="form-select" formControlName="id_competition" (change)="GETALLCoureur($event)">
+                    <option *ngFor="let c of listcompetition" [value]="c.id">{{c.nomcompetition}}</option>
+
+             
+                </select>
+            </div>  -->
+ <div class="mb-3">
+                <label class="form-label">Choisir arbitre</label>
+                <select class="form-select"  multiple  formControlName="id_arbitre" >
+                    <option *ngFor="let a of listarbitre" [value]="a.id">{{a.nom}} {{a.prenom}}</option>
+
+             
+                </select>
+            </div>
+            <!-- <div class="deadline-form">
+              
+                    <div class="row g-3 mb-3">
+                      
+                      <div class="col-sm-6">
+                        <label for="deptwo" class="form-label">Dossards</label>
+                        <input type="number" class="form-control" id="deptwo" formControlName="dossards">
+                      </div>
+                      
+                    </div>
+                
+            </div> -->
+        </form>
+        </div>
+        <div class="modal-footer">
+            <button   type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)=" affecterarbitre()">Affecter </button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" >Save</button>
+        </div>
+    </div>
+    </div>
+</div> 
+
+
+
+
+
+<!-- update -->

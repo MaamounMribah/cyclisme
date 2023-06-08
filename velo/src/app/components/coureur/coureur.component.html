@@ -1,0 +1,407 @@
+
+<div class="col-sm-12 col-md-6">
+    <div id="myProjectTable_filter" class="dataTables_filter"><label>Search:<input
+                type="text" class="form-control form-control-sm" placeholder=""
+                aria-controls="myProjectTable" [(ngModel)]="search_name"></label></div>
+</div>
+
+<div class="body d-flex py-lg-3 py-md-2">
+    <div class="container-xxl">
+        <div class="row clearfix">
+            <div class="col-md-12">
+                <div class="card border-0 mb-4 no-bg">
+                    <div class="card-header py-3 px-0 d-flex align-items-center  justify-content-between border-bottom">
+                        <h3 class=" fw-bold flex-fill mb-0">Liste Coureur</h3>
+                        <div class="col-auto d-flex">
+                            <div class="dropdown ">
+                                <button class="btn btn-primary dropdown-toggle  " type="button" id="dropdownMenuButton2"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Status
+                                </button>
+                               
+                            </div>
+                            <button *ngIf="isresequipe()" type="button" class="btn btn-dark ms-1 " data-bs-toggle="modal"
+                                data-bs-target="#createproject"><i class="icofont-plus-circle me-2 fs-6"></i>Ajouter Coureur</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- Row End -->
+        
+        <div
+            class="row g-3 row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2 row-deck py-1 pb-4">
+            <div class="col" *ngFor="let p of listcoureur |rechercoureur:search_name | paginate: { itemsPerPage: 3, currentPage: p };">
+                <div class="card teacher-card">
+                    <div class="card-body  d-flex">
+                        <div class="profile-av pe-xl-4 pe-md-2 pe-sm-4 pe-4 text-center w220">
+                            <img src="http://localhost:8080/api/auth/files/{{p?.image}}" alt=""
+                                class="avatar xl rounded-circle img-thumbnail shadow-sm">
+                            <div class="about-info d-flex align-items-center mt-1 justify-content-center flex-column">
+                                <h6 class="mb-0 fw-bold d-block fs-6 mt-2"> leur Catégorie:  {{p.categorycoureur}}</h6>
+                                <div class="btn-group mt-2" role="group" aria-label="Basic outlined example">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                                        data-bs-target="#editproject"   (click)="open(p)"><i class="icofont-edit text-success"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                                        data-bs-target="#deleteproject" ><i
+                                            class="icofont-ui-delete text-danger" (click)="deletecoureur(p.id)"></i></button>
+                                            &nbsp;&nbsp;
+                                            <!-- <div class="text-truncate">{{c.confirmation}} </div> -->
+                                    <span *ngIf="p.confirmation=='en cours'" class="badge bg-danger" (click)="confirmercoureur(p.id)">Confirmer</span>
+                                    <span *ngIf="p.confirmation=='confirmée'" class="badge bg-success">Confirmée</span> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="teacher-info border-start ps-xl-4 ps-md-3 ps-sm-4 ps-4 w-100">
+                            <h6 class="mb-0 mt-2  fw-bold d-block fs-6">{{p.nom}} {{p.prenom}}</h6>
+                            <span class="py-1 fw-bold small-11 mb-0 mt-1 text-muted"> NumLicence:{{p.numlicence}} </span>
+                            <div class="video-setting-icon mt-3 pt-3 border-top">
+                                <p>{{p.description}}</p>
+                            </div>
+                            <div class="d-flex flex-wrap align-items-center ct-btn-set">
+                              
+                                <a  class="btn btn-dark btn-sm mt-1" [routerLink]="['/home/detailCoureur',p.id]"><i
+                                        class="icofont-invisible me-2 fs-6"></i>Profile</a>
+                                        <!-- <button class="btn btn-dark btn-sm mt-1" (click)="updatecategorycoureur()" ><i
+                                            class="icofont-invisible me-2 fs-6"></i>update</button> -->
+                            </div>
+                            <div class="d-flex flex-wrap align-items-center ct-btn-set">
+                                <div class="video-setting-icon mt-3 pt-3 border-top">
+
+                               <div class="flex-fill ms-4 text-truncate">
+                                <div class="text-truncate">Status  </div>
+                                <span class="badge bg-success" *ngIf="p.enabled=='activer'" (click)="desactiver(p.id)"> Activer</span>
+                                <span class="badge bg-danger"  *ngIf="p.enabled=='désactiver'" (click)="activer(p.id)" > Désactiver</span>
+
+                            </div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- <span>ajout</span> -->
+
+
+<div class="modal fade " id="createproject" tabindex="-1" style="display: none;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title  fw-bold" id="createprojectlLabel"> Ajouter Coureur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+           
+            
+            <div class="modal-body">
+                <div class="deadline-form">
+                    <form  [formGroup]="coureurform">
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput877" class="form-label">NumLicence</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput877"
+                              formControlName="numlicence" placeholder="Entrer NumLicence"
+                              [ngClass]="{'is-invalid': submitted && f['numlicence'].errors  && f['numlicence'].errors['uniqueType']  }">
+                          
+                            <div *ngIf="submitted && f['numlicence'].errors" class="invalid-feedback">
+                              <div *ngIf="f['numlicence'].errors['required']">Le numéro de licence est requis.</div>
+                              <div *ngIf="f['numlicence'].errors['uniqueType']">La valeur du champ "type" doit être unique.</div>
+                              <div *ngIf="f['numlicence'].errors['minlength']">Le numéro de licence doit comporter au moins 5 chiffres.</div>
+                              <div *ngIf="f['numlicence'].errors['maxlength']">Le numéro de licence doit comporter au maximum 10 chiffres.</div>
+                              <div *ngIf="f['numlicence'].errors['pattern']">Le numéro de licence doit être composé uniquement de chiffres.</div>
+                             
+                            </div>
+                          </div>
+               
+              
+                <div class="mb-3">
+                    <label for="formFileMultipleoneone" class="form-label">Profile Image</label>
+                   
+                        <input type="file" (change)="handleFileInput($event)"
+                        name="file" class="form-control form-control-user">
+                    
+                   
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Equipe</label>
+                    <select class="form-select" formControlName="id_equipefeder">
+                        <option selected="">Choisir Equipe</option>
+                        <option *ngFor="let e of listequipe" [value]="e.id">{{e.nom}}</option>
+
+                 
+                    </select>
+                </div>
+
+
+                
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <label for="exampleFormControlInput177" class="form-label">Nom</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput177"
+                                    formControlName="nom" placeholder="....."   [ngClass]="{ 'is-invalid': submitted && f['nom'].errors }">
+                                    <div *ngIf="submitted && f['nom'].errors" class="invalid-feedback">
+                                        <div    *ngIf="f['nom'].errors['required']">Le nom est requis.</div>
+                                        <div  *ngIf="f['nom'].errors['pattern']">Le nom doit être composé uniquement de alphabéte.</div>
+                                        <div *ngIf="f['nom'].errors['maxlength']">Le nom doit comporter au maximum 50 chiffres.</div>
+                                    </div>
+                            </div>
+                            <div class="col">
+                                <label for="exampleFormControlInput277" class="form-label">Prénom</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput277"
+                                    formControlName="prenom" placeholder="....."  [ngClass]="{ 'is-invalid': submitted && f['prenom'].errors }">
+                                    <div *ngIf="submitted && f['prenom'].errors" class="invalid-feedback">
+                                        <div    *ngIf="f['prenom'].errors['required']">Le prenom est requis.</div>
+                                        <div  *ngIf="f['prenom'].errors['pattern']">Le prenom doit être composé uniquement de alphabéte.</div>
+                                        <div *ngIf="f['prenom'].errors['maxlength']">Le prenom doit comporter au maximum 50 chiffres.</div>
+                                    </div>
+                        </div>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <label for="exampleFormControlInput477" class="form-label">Date Naissance </label>
+                                <input type="date" class="form-control" id="exampleFormControlInput477"
+                                    formControlName="datenaissance" placeholder="....."  [ngClass]="{ 'is-invalid': submitted && f['datenaissance'].errors }">
+                                    <div *ngIf="submitted && f['datenaissance'].errors" class="invalid-feedback">
+                                        <div    *ngIf="f['datenaissance'].errors['required']">datenaissance est requis.</div>
+                                    </div>
+                                    </div>
+                            <div class="col">
+                                <label class="form-label">Genre</label>
+                                <select class="form-select" formControlName="genre">
+                                    <option selected="">choisir</option>
+                                    <option value="Feminin" >Féminin</option>
+                                    <option value="Masculin">Masculin</option>
+                                    <!-- <option value="">Autre</option> -->
+    
+            
+                             
+                                </select>
+                              
+                            </div>
+                            <!-- <div class="col">
+                                <label for="exampleFormControlInput777" class="form-label">categoriecoureur</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput777" formControlName="categorycoureur" readonly>
+                            </div> -->
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <label for="exampleFormControlInput477" class="form-label">Email </label>
+                                <input type="email" class="form-control" id="exampleFormControlInput477"
+                                    formControlName="email" placeholder="....."   [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
+                            
+                                    <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['email'].errors['required']">Email is required</div>
+                                        <div *ngIf="f['email'].errors['email']">Email is invalid</div>
+                                      </div>
+                            
+                                </div>
+                                <div class="col">
+                                    <label for="exampleFormControlInput777" class="form-label"> Tel </label>
+                                    <input type="tel" class="form-control" id="exampleFormControlInput777"
+                                        formControlName="tel" placeholder="....."    [ngClass]="{ 'is-invalid': submitted && f['tel'].errors }">
+                                        <div *ngIf="submitted && f['tel'].errors" class="invalid-feedback">
+                                            <div    *ngIf="f['tel'].errors['required']">Le tel est requis.</div>
+                                            <div *ngIf="f['tel'].errors['maxlength']">Le tel doit comporter au maximum 8 chiffres.</div>
+                                            <div *ngIf="f['tel'].errors['minlength']">Le tel doit comporter au moins 8 chiffres.</div>
+                                            <div  *ngIf="f['tel'].errors['pattern']">Le tel doit être composé uniquement de chiffres.</div>
+                                        </div>
+                                    </div></div>
+                            <div class="row g-3 mb-3">
+                                <div class="col">
+                                    <label for="exampleFormControlInput477" class="form-label">Region </label>
+                                    <input type="text" class="form-control" id="exampleFormControlInput477"formControlName="region" placeholder="....."  [ngClass]="{ 'is-invalid': submitted && f['region'].errors }">
+                                    <div *ngIf="submitted && f['region'].errors" class="invalid-feedback"></div>
+                                    <!-- <div *ngIf="f['region'].errors['required']"></div> -->
+                                </div>
+                                <div class="col">
+                                    <label class="form-label">EquipeNational</label>
+                                    <select class="form-select" formControlName="equipenational">
+                                        <option selected="">Appartenance à l'equipe national</option>
+                                        <option value="non" >Non</option>
+                                        <option value="oui">Oui</option>
+
+                
+                                 
+                                    </select>
+                                  
+                                </div>
+                                <div class="mb-3">          
+                                    <label for="exampleFormControlTextarea787" class="form-label">Description </label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea787" rows="3" formControlName="description" ></textarea>
+                                </div> 
+                                
+                               
+                            </div>
+                    </form>
+                </div>
+                
+                
+                        
+                
+                                    
+                                
+                              
+                  
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
+                <button type="button" class="btn btn-primary"  (click)="savecoureur()">Ajouter</button>
+            </div> 
+        </div>  
+    </div>
+   </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- update -->
+
+
+
+<div class="modal fade " id="editproject" tabindex="-1" aria-modal="true" role="dialog" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+               
+                <h5 class="modal-title  fw-bold" id="createprojectlLabelone"> Modifier Coureur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="deadline-form">
+                    <form  [formGroup]="coureurformupdate">
+                <div class="mb-3">
+                    <label for="exampleFormControlInput877" class="form-label">NumLicence</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput877"formControlName="numlicence" placeholder=".....">
+                </div>
+               
+                <!-- <div class="mb-3">
+                    <label for="exampleFormControlInput977" class="form-label">CIN</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput977" formControlName="cin" placeholder=".....">
+                </div> -->
+                <div class="mb-3">
+                    <label for="formFileMultipleoneone" class="form-label">Profile Image</label>
+                   
+                        <input type="file" (change)="handleFileInput($event)"
+                        name="file" class="form-control form-control-user">
+                    
+                   
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Equipe</label>
+                    <select class="form-select" formControlName="id_equipefeder">
+                        <option selected="">Choisir Equipe</option>
+                        <option *ngFor="let e of listequipe" [value]="e.id">{{e.nom}}</option>
+
+                 
+                    </select>
+                </div>
+
+
+                
+                        <div class="row g-3 mb-3">
+                        <div class="col">
+                            <label for="exampleFormControlInput177" class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput177" formControlName="nom" placeholder=".....">
+                        </div>
+                        <div class="col">
+                            <label for="exampleFormControlInput277" class="form-label">Prénom</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput277" formControlName="prenom" placeholder=".....">
+                        </div>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <!-- <div class="col">
+                                <label for="exampleFormControlInput477" class="form-label">Date Naissance </label>
+                                <input type="date" class="form-control" id="exampleFormControlInput477"  formControlName="datenaissance" placeholder=".....">
+                            </div> -->
+                            <!-- <div class="col">
+                                <label class="form-label">Genre</label>
+                                <select class="form-select" formControlName="genre">
+                                    <option selected="">choisir</option>
+                                    <option value="Féminin" >Féminin</option>
+                                    <option value="Masculin">Masculin</option>
+    
+            
+                             
+                                </select>
+                              
+                            </div> -->
+                            <!-- <div class="col">
+                                <label for="exampleFormControlInput777" class="form-label">categoriecoureur</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput777" formControlName="categorycoureur" placeholder=".....">
+                            </div> -->
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <label for="exampleFormControlInput477" class="form-label">Email </label>
+                                <input type="email" class="form-control" id="exampleFormControlInput477" formControlName="email"placeholder=".....">
+                            </div>
+                            <div class="col">
+                                <label for="exampleFormControlInput777" class="form-label"> Tel </label>
+                                <input type="text" class="form-control" id="exampleFormControlInput777" formControlName="tel" placeholder=".....">
+                            </div></div>
+                            <div class="row g-3 mb-3">
+                                <div class="col">
+                                    <label for="exampleFormControlInput477" class="form-label">Region </label>
+                                    <input type="text" class="form-control" id="exampleFormControlInput477"formControlName="region" placeholder=".....">
+                                </div>
+                                <div class="col">
+                                    <label class="form-label">EquipeNational</label>
+                                    <select class="form-select" formControlName="equipenational">
+                                        <option selected="">Appartenance à l'equipe national</option>
+                                        <option value="non" >Non</option>
+                                        <option value="oui">Oui</option>
+
+                
+                                 
+                                    </select>
+                                  
+                                </div>
+                                <div class="mb-3">          
+                                    <label for="exampleFormControlTextarea787" class="form-label">Description </label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea787" rows="3" formControlName="description" ></textarea>
+                                </div> 
+                                
+                               
+                            </div>
+                    </form>
+                </div>
+                
+                
+                        
+                
+                                    
+                                
+                              
+                  
+                
+            
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updatecoureur()" >Modifier</button>
+            </div> 
+        </div> 
+    </div>
+</div>
+
+
+<pagination-controls (pageChange)="p = $event"></pagination-controls>

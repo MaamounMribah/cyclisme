@@ -1,0 +1,259 @@
+<div  id="htmlData">
+    <div class="body d-flex py-lg-3 py-md-2">
+    <div class="container-xxl">
+        <div class="row align-items-center">
+            <div class="border-0 mb-4">
+                <div
+                    class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
+                    <h3 class="fw-bold mb-0">Liste Resultat Competition</h3>
+                    <div class="col-auto d-flex w-sm-100">
+                        <button *ngIf="isresfedera() && ok==false"  type="button" class="btn btn-dark btn-set-task w-sm-100"
+                            data-bs-toggle="modal" data-bs-target="#depadd"><i
+                                class="icofont-plus-circle me-2 fs-6"></i>Ajouter Résultat</button>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Row end  -->
+        <div class="row clearfix g-3">
+            <div class="col-sm-12">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div id="myProjectTable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                            <!-- <div class="row">
+                                <div class="dataTables_length" id="myProjectTable_length">
+                                    <label>Genre
+                                        <select name="myProjectTable_length" (change)="GETALLResultatCompbygenre($event)"  aria-controls="myProjectTable"
+                                            class="form-select form-select-sm">
+                                            <option value="Masculin">Masulin</option>
+                                            <option value="Feminin">Féminin</option>
+
+
+                                        </select>
+                                    </label>
+                                </div>
+                           
+                                    <div class="dataTables_length" id="myProjectTable_length">
+                                        <label>Categorie 
+                                            <select (change)="GETALLResultatCompbycategorie($event)"
+                                                name="myProjectTable_length" aria-controls="myProjectTable"
+                                                class="form-select form-select-sm">
+                                                <option value="ecole">Ecole</option>
+                                                <option value="minime">Minime</option>
+                                                <option value="cadet">Cadet</option>
+                                                <option value="junior">Junior</option>
+                                                <option value="sénior">Sénior</option>
+
+
+
+                                            </select> </label></div>
+
+                            
+                                <div class="col-sm-12 col-md-6">
+                                    <div id="myProjectTable_filter" class="dataTables_filter"><label>Search:<input
+                                                type="search" class="form-control form-control-sm" placeholder=""
+                                                aria-controls="myProjectTable"></label></div>
+                                </div>
+                            </div> -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="myProjectTable"
+                                        class="table table-hover align-middle mb-0 nowrap dataTable no-footer dtr-inline"
+                                        style="width: 100%;" role="grid" aria-describedby="myProjectTable_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting" tabindex="0" aria-controls="myProjectTable"
+                                                    rowspan="1" colspan="1" style="width: 83.2px;"
+                                                    aria-label="Employee ID: activate to sort column ascending">#</th>
+
+                                                <th class="sorting_asc" tabindex="0" aria-controls="myProjectTable"
+                                                    rowspan="1" colspan="1" style="width: 423.2px;"
+                                                    aria-label="Employee Name: activate to sort column descending"
+                                                    aria-sort="ascending"> Nom Coureur</th>
+
+
+                                                <th class="dt-body-right sorting" tabindex="0"
+                                                    aria-controls="myProjectTable" rowspan="1" colspan="1"
+                                                    style="width: 87.2px;"
+                                                    aria-label="Loan Period: activate to sort column ascending"> Prénom
+                                                    Coureur
+                                                </th>
+                                                <th class="dt-body-right sorting" tabindex="0"
+                                                    aria-controls="myProjectTable" rowspan="1" colspan="1"
+                                                    style="width: 87.2px;"
+                                                    aria-label="Loan Period: activate to sort column ascending">
+                                                    Dossards
+                                                </th>
+                                                <th class="dt-body-right sorting" tabindex="0"
+                                                aria-controls="myProjectTable" rowspan="1" colspan="1"
+                                                style="width: 87.2px;"
+                                                aria-label="Loan Period: activate to sort column ascending">
+                                                Temps</th>
+                                                <th class="dt-body-right sorting" tabindex="0"
+                                                    aria-controls="myProjectTable" rowspan="1" colspan="1"
+                                                    style="width: 87.2px;"
+                                                    aria-label="Loan Period: activate to sort column ascending">
+                                                    Classements</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+
+
+
+
+
+                                            <tr role="row" class="odd parent"
+                                                *ngFor="let p of  listresultatcompetition ;let index=index">
+                                                <td tabindex="0" class="" style="">
+                                                    <span class="fw-bold">{{index+1}}</span>
+                                                </td>
+                                                <td class="d-flex align-items-center sorting_1">
+
+                                                    <div>
+                                                        <span class="fw-bold ms-1">{{p.coureur.nom}}</span>
+
+                                                    </div>
+                                                </td>
+                                                <td class=" dt-body-right" style="">
+                                                    {{p.coureur.prenom}}
+                                                </td>
+                                                <td class=" dt-body-right" style="">
+                                                    {{p.dossards}}
+                                                </td>
+                                                <td class=" dt-body-right" style="">
+                                                    {{p.temps
+                                                    }}
+                                                </td>
+                                                <td class=" dt-body-right" style="">
+                                                    {{p.classement}}
+                                                </td>
+
+
+
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                   
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-5">
+                                    <div class="dataTables_info" id="myProjectTable_info" role="status"
+                                        aria-live="polite">Showing 1 to 6 of 6 entries</div>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="myProjectTable_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button page-item previous disabled"
+                                                id="myProjectTable_previous"><a href="#" aria-controls="myProjectTable"
+                                                    data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+                                            <li class="paginate_button page-item active"><a href="#"
+                                                    aria-controls="myProjectTable" data-dt-idx="1" tabindex="0"
+                                                    class="page-link">1</a></li>
+                                            <li class="paginate_button page-item next disabled"
+                                                id="myProjectTable_next"><a href="#" aria-controls="myProjectTable"
+                                                    data-dt-idx="2" tabindex="0" class="page-link">Next</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- Row End -->
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- Ajouter Résultat -->
+<div class="modal fade " id="depadd" tabindex="-1" aria-modal="true" role="dialog" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title  fw-bold" id="depaddLabel"> Ajouter Résultat Compétition</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="resultatform">
+                    <!-- <div class="mb-3">
+                <label class="form-label">Choisir Compétition</label>
+                <select class="form-select" formControlName="id_competition" (change)="GETALLCoureur($event)">
+                    <option *ngFor="let c of listcompetition" [value]="c.id">{{c.nomcompetition}}</option>
+
+             
+                </select>
+            </div> -->
+
+                    <!-- <div class="deadline-form">
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-sm-6">
+                                <label for="depone" class="form-label">Filtrer par Catégorie</label>
+                                <select class="form-select" (change)="getallcoureurbycategorie($event)">
+                                    <option value="ecole">Ecole</option>
+                                    <option value="minime">Minime</option>
+                                    <option value="cadet">Cadet</option>
+                                    <option value="senior">Sénior</option>
+                                    <option value="junior">Junior</option>
+
+
+                                </select>
+                            </div>
+                          
+
+                        </div>
+
+                    </div> -->
+                    <!-- <label class="form-label" *ngIf="ok==true">Coureur déja affecté</label> -->
+                    <div class="mb-3" *ngIf="ok==false">
+                        <label class="form-label">Choisir Coureur</label>
+                        <select class="form-select" multiple formControlName="id_coureur" >
+                            <option *ngFor="let c of listcoureur" [value]="c.id">{{c.nom}} {{c.prenom}}</option>
+
+
+                        </select>
+                    </div>
+                    <div class="deadline-form">
+
+                        <div class="row g-3 mb-3">
+                            <!-- <div class="col-sm-6"> -->
+                            <label for="depone" class="form-label">dossards</label>
+                            <input type="number" class="form-control" formControlName="dossards">
+
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <!-- <div class="col-sm-6"> -->
+                            <label for="depone" class="form-label">Temps</label>
+                            <input type="time" class="form-control" formControlName="temps">
+
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary"  (click)="updatedossards()"> Affecter  </button> -->
+                <button   type="submit" class="btn btn-primary"  (click)="Addresultat()">Ajouter</button>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"  (click)="updateClassementCoureur()">Confirmer</button>
+
+                <!--  -->
+            </div>
+        </div>
+    </div>
+</div></div>
+<div class="col-md-4 text-right">
+    <button class="btn btn-success btn-block" (click)="openPDF()">Download PDF</button>
+</div>

@@ -1,0 +1,139 @@
+
+
+<div class="row clearfix">
+    <div class="col-md-12">
+        <div class="card border-0 mb-4 no-bg">
+            <div class="card-header py-3 px-0 d-flex align-items-center  justify-content-between border-bottom">
+                <h3 class=" fw-bold flex-fill mb-0">Equipe Profile</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="card teacher-card  mb-3">
+    <div class="card-body d-flex teacher-fulldeatil">
+        <div class="profile-teacher pe-xl-4 pe-md-2 pe-sm-4 pe-4 text-center w220">
+            <a>
+                <img src="http://localhost:8080/api/auth/files/{{equipe?.image}}" alt="" class="avatar xl rounded-circle img-thumbnail shadow-sm">
+            </a>
+            <div class="about-info d-flex align-items-center mt-3 justify-content-center flex-column">
+                <h6 class="mb-0 fw-bold d-block fs-6">Nom Equipe: {{equipe?.nom}}</h6>
+                <span class="text-muted small">RNE: {{equipe?.rne}}</span>
+            </div>
+        </div>
+        <div class="teacher-info border-start ps-xl-4 ps-md-4 ps-sm-4 ps-4 w-100">
+            <h6 class="mb-0 mt-2  fw-bold d-block fs-6">Date Création: {{equipe?.datecreation}}</h6>
+            <h6 class="mb-0 mt-2  fw-bold d-block fs-6">Date Election:  {{equipe?.dateelection}}</h6>
+            <h6 class="mb-0 mt-2  fw-bold d-block fs-6">Adresse:  {{equipe?.adress}}</h6>
+            <h6 class="mb-0 mt-2  fw-bold d-block fs-6">Adresse:  {{equipe?.email}}</h6>
+            <div class="teacher-info border-start ps-xl-4 ps-md-4 ps-sm-4 ps-4 w-100">
+            <p class="mt-2 small"> Description:  {{equipe?.description}}</p>
+        </div>
+                
+               
+            
+        </div>
+    </div>
+</div>
+<h6 class="fw-bold  py-3 mb-3"> Liste Membre à afficher </h6>
+
+<div class="row g-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <div class="info-header">
+                    <h6 class="mb-0 fw-bold ">Liste Membre</h6>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="myProjectTable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="dataTables_length" id="myProjectTable_length"><label>Show
+                                    <select name="myProjectTable_length" aria-controls="myProjectTable"
+                                        class="form-select form-select-sm">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select> entries</label></div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div id="myProjectTable_filter" class="dataTables_filter">
+                                <label>Search:<input type="search" class="form-control form-control-sm"
+                                        placeholder="" aria-controls="myProjectTable"></label></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="myProjectTable"
+                                class="table table-hover align-middle mb-0 nowrap dataTable no-footer dtr-inline"
+                                style="width: 100%;" role="grid" aria-describedby="myProjectTable_info">
+                                <thead>
+                                    <tr role="row"  >
+                                        <th class="sorting_asc" tabindex="0"
+                                            aria-controls="myProjectTable" rowspan="1" colspan="1"
+                                            style="width: 39.2px;" aria-sort="ascending"
+                                            aria-label="NO: activate to sort column descending">Nom </th>
+                                        <th class="sorting" tabindex="0" aria-controls="myProjectTable"
+                                            rowspan="1" colspan="1" style="width: 114.2px;"
+                                            aria-label="Project: activate to sort column ascending">
+                                           Prenom</th>
+                                           <th class="sorting" tabindex="0" aria-controls="myProjectTable"
+                                           rowspan="1" colspan="1" style="width: 114.2px;"
+                                           aria-label="Project: activate to sort column ascending">
+                                          Fonction</th>
+                                        
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+
+
+                                    <tr role="row" class="odd" *ngFor="let p of listmembreEquipe">
+                                        
+                                        <td><a >{{p?.nom}}</a></td>
+                                        <td>{{p?.prenom}}</td>
+                                        <td>{{p?.fonction}}</td>
+                                        
+                                        
+                                    </tr>
+                                  
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-5">
+                            <div class="dataTables_info" id="myProjectTable_info" role="status"
+                                aria-live="polite">Showing 1 to 4 of 4 entries</div>
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                            <div class="dataTables_paginate paging_simple_numbers"
+                                id="myProjectTable_paginate">
+                                <ul class="pagination">
+                                    <li class="paginate_button page-item previous disabled"
+                                        id="myProjectTable_previous"><a href="#"
+                                            aria-controls="myProjectTable" data-dt-idx="0" tabindex="0"
+                                            class="page-link">Previous</a></li>
+                                    <li class="paginate_button page-item active"><a href="#"
+                                            aria-controls="myProjectTable" data-dt-idx="1" tabindex="0"
+                                            class="page-link">1</a></li>
+                                    <li class="paginate_button page-item next disabled"
+                                        id="myProjectTable_next"><a href="#"
+                                            aria-controls="myProjectTable" data-dt-idx="2" tabindex="0"
+                                            class="page-link">Next</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- Row End -->

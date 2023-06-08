@@ -1,0 +1,334 @@
+<div class="col-sm-12 col-md-6">
+    <div id="myProjectTable_filter" class="dataTables_filter"><label>recherche : <input required type="search"
+                class="form-control form-control-sm" placeholder="" aria-controls="myProjectTable"
+                [(ngModel)]="search_name"></label></div>
+</div>
+
+<div class="body d-flex py-lg-3 py-md-2">
+    <div class="container-xxl">
+        <div class="row clearfix">
+            <div class="col-md-12">
+                <div class="card border-0 mb-4 no-bg">
+                    <div class="card-header py-3 px-0 d-flex align-items-center  justify-content-between border-bottom">
+                        <h3 class=" fw-bold flex-fill mb-0">Liste Equipe</h3>
+                        <div class="col-auto d-flex">
+
+                            <button *ngIf="isresfedera()" type="button" class="btn btn-dark ms-1 "
+                                data-bs-toggle="modal" data-bs-target="#createproject"><i
+                                    class="icofont-plus-circle me-2 fs-6"></i>Ajouter Equipe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- Row End -->
+
+        <div
+            class="row g-3 row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2 row-deck py-1 pb-4">
+            <div class="col"
+                *ngFor="let p of listequipe |recherche:search_name | paginate: { itemsPerPage: 3, currentPage: p };">
+                <div class="card teacher-card">
+                    <div class="card-body  d-flex">
+                        <div class="profile-av pe-xl-4 pe-md-2 pe-sm-4 pe-4 text-center w220">
+                            <img src="http://localhost:8080/api/auth/files/{{p.image}}" alt=""
+                                class="avatar xl rounded-circle img-thumbnail shadow-sm">
+                            <div class="about-info d-flex align-items-center mt-1 justify-content-center flex-column">
+                                <h6 class="mb-0 fw-bold d-block fs-6 mt-2"> date de création: {{p.datecreation}} </h6>
+
+                                <div class="btn-group mt-2" role="group" aria-label="Basic outlined example">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                                        data-bs-target="#editproject" (click)="open(p)"><i
+                                            class="icofont-edit text-success" (click)="open(p)"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                                        data-bs-target="#deleteproject" (click)="deleteequipe(p.id)"><i
+                                            class="icofont-ui-delete text-danger"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="teacher-info border-start ps-xl-4 ps-md-3 ps-sm-4 ps-4 w-100">
+                            <h6 class="mb-0 mt-2  fw-bold d-block fs-6"> {{p.nom}} </h6>
+                            <span class="py-1 fw-bold small-11 mb-0 mt-1 text-muted">L'RNE est:{{p.rne}} </span>
+                            <div class="d-flex flex-wrap align-items-center ct-btn-set">
+
+                                <a class="btn btn-dark btn-sm mt-1" [routerLink]="['/home/detailequipe',p.id]"><i
+                                        class="icofont-invisible me-2 fs-6"></i>Détail</a>
+                            </div>
+                            <div class="video-setting-icon mt-3 pt-3 border-top">
+                                <h6>date Election: {{p.dateelection}} </h6>
+                                <h6> Email est: {{p.email}} </h6>
+                                <h6>Adresse Equipe : {{p.adress}} </h6>
+                                <div class="video-setting-icon mt-3 pt-3 border-top"></div>
+
+                                <div class="flex-fill ms-4 text-truncate">
+                                    <div class="text-truncate">Status </div>
+                                    <span class="badge bg-success" *ngIf="p.enabled=='activer'"
+                                        (click)="desactiver(p.id)"> Activer</span>
+                                    <span class="badge bg-danger" *ngIf="p.enabled=='désactiver'"
+                                        (click)="activer(p.id)"> Désactiver</span>
+
+                                </div>
+                                <div class="video-setting-icon mt-3 pt-3 border-top"></div>
+                                <p>{{p.description}}
+
+                                </p>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+<!-- ajout -->
+
+
+
+
+<div  class="modal fade " id="createproject" tabindex="-1" style="display: none;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title  fw-bold" id="createprojectlLabel"> Ajouter Equipe</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+
+            <div class="modal-body">
+                <div class="deadline-form">
+                    <form [formGroup]="equipeform">
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput977" class="form-label">Dénomination</label>
+                             <input required type="text" class="form-control" id="exampleFormControlInput977"
+                                formControlName="nom" [ngClass]="{ 'is-invalid': submitted && f['nom'].errors  }">
+                                <div *ngIf="submitted && f['nom'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['nom'].errors['required']">Le nom est requis.</div>
+                
+                                    <div *ngIf="f['nom'].errors['uniqueType']">La  champ "nom" doit être unique.</div>
+                                   
+                                    <div *ngIf="f['nom'].errors['pattern']">Le nom doit être composé uniquement de alphabéte.</div>
+                                  </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput977" class="form-label">RNE</label>
+                             <input required type="text" class="form-control" id="exampleFormControlInput977"
+                                formControlName="rne" placeholder="....." [ngClass]="{ 'is-invalid': submitted && f['rne'].errors  }">
+                                <div *ngIf="submitted && f['rne'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['rne'].errors['required']">Le rne est requis.</div>
+                                    <div *ngIf="f['rne'].errors['uniqueType']">La  champ "rne" doit être unique.</div>
+                                   
+                                   
+                                  </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFileMultipleoneone" class="form-label">Profile Image</label>
+
+                             <input required type="file" (change)="handleFileInput($event)" name="file"
+                                class="form-control form-control-user">
+                                <div *ngIf="filestate==false" style="color: red;" >
+                                    Profile Image est requis.
+                                </div>
+
+                        </div>
+
+
+
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <label for="exampleFormControlInput177" class="form-label">datecreation</label>
+                                 <input required type="date" class="form-control" id="exampleFormControlInput177"
+                                    formControlName="datecreation" placeholder="....."[ngClass]="{ 'is-invalid': submitted && f['datecreation'].errors }">
+                                    <div *ngIf="submitted && f['datecreation'].errors" class="invalid-feedback">
+                                        <div    *ngIf="f['datecreation'].errors['required']">datecreation est requis.</div>
+                                    </div>
+                            </div>
+                            <div class="col">
+                                <label for="exampleFormControlInput277" class="form-label">dateelection</label>
+                                 <input required type="date" class="form-control" id="exampleFormControlInput277"
+                                    formControlName="dateelection" placeholder="....."[ngClass]="{ 'is-invalid': submitted && f['dateelection'].errors }">
+                            
+                                    <div *ngIf="submitted && f['dateelection'].errors" class="invalid-feedback">
+                                        <div    *ngIf="f['dateelection'].errors['required']">dateelection est requis.</div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <label for="exampleFormControlInput477" class="form-label">email </label>
+                                 <input required type="email" class="form-control" id="exampleFormControlInput477"
+                                    formControlName="email" placeholder="....."   [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
+                                    <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                                        <div    *ngIf="f['email'].errors['required']">email est requis.</div>
+                                        <div *ngIf="f['email'].errors['email']">Email is invalid</div>
+                                    </div>
+                           
+                           
+                                </div>
+                            <div class="col">
+                                <label for="exampleFormControlInput477" class="form-label">Addresse </label>
+                                 <input required type="text" class="form-control" id="exampleFormControlInput477"
+                                    formControlName="adress" placeholder="....." [ngClass]="{ 'is-invalid': submitted && f['adress'].errors }">
+                                    <div *ngIf="submitted && f['adress'].errors" class="invalid-feedback">
+                                        <div    *ngIf="f['adress'].errors['required']">adress est requis.</div>
+                                        <div *ngIf="f['adress'].errors['pattern']">Le adress doit être composé uniquement de alphabéte.</div>
+                                    </div>
+                            </div>
+
+                            <!-- <div class="col">
+                                <label for="exampleFormControlInput777" class="form-label" >etat</label>
+                                <select class="form-select" formControlName="etat">
+                                    <option value="Actif" >Actif</option>
+                                    <option value="Passif">Passif</option>
+
+            
+                             
+                                </select>
+                            </div> -->
+                            <div class="row g-3 mb-3">
+                                <div class="mb-3">
+                                    <label for="exampleFormControlTextarea78" class="form-label">Description
+                                        (optional)</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea78" rows="3"
+                                        placeholder="Ecrire une description" formControlName="description"></textarea>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+                        </div>
+                    </form>
+                </div>
+
+
+
+
+
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
+                <button type="button" class="btn btn-primary" 
+                    (click)="saveequipe()">Ajouter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- update -->
+
+
+
+
+<div class="modal fade " id="editproject" tabindex="-1" style="display: none;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title  fw-bold" id="editprojectLabel"> Modifier Equipe</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="deadline-form">
+                    <form [formGroup]=" equipeformupdate">
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput78" class="form-label">Nom Equipe</label>
+                             <input required type="text" class="form-control" id="exampleFormControlInput78"
+                                formControlName="nom">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput78" class="form-label">RNE</label>
+                             <input required type="text" class="form-control" id="exampleFormControlInput78"
+                                formControlName="rne">
+                        </div>
+
+                        <div class="col-sm-6 mb-3">
+                             <input required type="file" (change)="handleFileInput($event)" name="file"
+                                class="form-control form-control-user">
+
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <label for="datepickerded123" class="form-label">adress</label>
+                                 <input required type="text" class="form-control" id="datepickerded123" formControlName="adress">
+                            </div>
+                            <div class="col">
+                                <label for="datepickerded123" class="form-label">Email</label>
+                                 <input required type="email" class="form-control" id="datepickerded123" formControlName="email">
+                            </div>
+                            <div class="col">
+                                <label for="datepickerded456" class="form-label">date election</label>
+                                 <input required type="date" class="form-control" id="datepickerded456"
+                                    formControlName="dateelection">
+                            </div>
+
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <!-- <div class="col">
+                                <label for="exampleFormControlInput777" class="form-label" >etat</label>
+                                <select class="form-select" formControlName="etat">
+                                    <option value="Actif" >Actif</option>
+                                    <option value="Passif">Passif</option>
+
+            
+                             
+                                </select>
+                            </div> -->
+                            <!-- <div class="col">
+                            <label for="datepickerded123" class="form-label">domination</label>
+                             <input required type="text" class="form-control" id="datepickerded123"  formControlName="domination">
+                          </div> -->
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="mb-3">
+                                <label for="exampleFormControlTextarea78" class="form-label">Description
+                                    (optional)</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea78" rows="3"
+                                    placeholder="Ecrire une description" formControlName="description"></textarea>
+                            </div>>
+                        </div>
+                        <!-- <div class="row g-3 mb-3">
+                        <div class="col-sm-12">
+                            <label class="form-label">Notifation Sent</label>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected="">All</option>
+                                <option value="1">Team Leader Only</option>
+                                <option value="2">Team Member Only</option>
+                            </select>
+                        </div> -->
+
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
+                <button type="button" class="btn btn-primary" (click)="updateequipe()" data-bs-dismiss="modal"
+                    aria-label="Close">Create</button>
+            </div>
+        </div>
+    </div>
+</div>

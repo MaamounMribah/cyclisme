@@ -1,0 +1,225 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+  <div class="row flex-lg-nowrap">
+    <div class="col-12 col-lg-auto mb-3" style="width: 200px;">
+      <div class="card p-3">
+        <div class="e-navlist e-navlist--active-bg">
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="row">
+        <div class="col mb-3">
+          <div class="card">
+            <div class="card-body">
+              <div class="e-profile">
+                <div class="row">
+                  <div class="col-12 col-sm-auto mb-3">
+                    <div class="mx-auto" style="width: 140px;">
+                      <!-- <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);"> -->
+                      <!-- <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span> -->
+
+                      <img class="avatar lg rounded-circle img-thumbnail"
+                        src="http://localhost:8080/api/auth/files/{{user.image}}" alt="profile"
+                        style="height: 140px;width: 140px;">
+                      &nbsp;
+                      <input type="file" (change)="handleFileInput($event)" name="file">
+                      <!-- </div> -->
+                    </div>
+                  </div>
+                  <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                    <div class="text-center text-sm-left mb-2 mb-sm-0">
+                      <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{user.prenom}} {{user.nom}}</h4>
+                      <!-- <p class="mb-0">@johnny.s</p> -->
+                      <!-- <div class="text-muted"><small>Last seen 2 hours ago</small></div> -->
+                      <!-- <div class="mt-2">
+                      <button class="btn btn-primary" type="button" (click)="updateimage()">
+                        <i class="fa fa-fw fa-camera"></i>
+                        <span>Change Photo</span>
+                      </button>
+                    </div> -->
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="tab-content pt-3">
+                  <div class="tab-pane active">
+                    <form class="form" novalidate="" [formGroup]="form">
+                      <div class="row">
+                        <div class="col">
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label>Prenom</label>
+                                <input class="form-control" type="text" formControlName="prenom"
+                                  placeholder="John Smith" value="John Smith">
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <label>Nom</label>
+                                <input class="form-control" type="text" formControlName="nom" placeholder="johnny.s"
+                                  value="johnny.s">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label>Email</label>
+                                <input class="form-control" type="text" placeholder="user@example.com"
+                                  formControlName="email">
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <label>Username</label>
+                                <input class="form-control" type="text" placeholder="user@example.com"
+                                  formControlName="username" readonly>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col">
+                                <div class="form-group">
+                                  <label>NumLicence</label>
+                                  <input class="form-control" type="text" placeholder="" formControlName="numlicence">
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="form-group">
+                                  <label>CIN</label>
+                                  <input class="form-control" type="text" placeholder="" formControlName="cin">
+                                </div>
+                              </div>
+
+
+                            </div>
+
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label>Tel</label>
+                                <input class="form-control" type="text" placeholder="user@example.com"
+                                  formControlName="tel">
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <label>Adresse</label>
+                                <input class="form-control" type="text" placeholder="user@example.com"
+                                  formControlName="adress">
+                              </div>
+                            </div>
+
+
+                          </div>
+
+
+                          <div class="form-group">
+                            <label> Etat</label>
+                            <input class="form-control" type="text" placeholder="user@example.com"
+                              formControlName="etat">
+                          </div>
+                          <!-- <div
+                             class="row">
+                          <div class="col mb-3">
+                            <div class="form-group">
+                              <label>About</label>
+                              <textarea class="form-control" rows="5" placeholder="My Bio"></textarea>
+                            </div>
+                          </div>
+                        </div> -->
+                        </div>
+                      </div>
+                      &nbsp;&nbsp;
+
+                      <div class="row">
+                        <form [formGroup]="formchangepassword">
+                          <div class="col-12 col-sm-6 mb-3">
+                            <div class="mb-2"><b>Changer Password</b></div>
+                            <div class="row">
+                              <div class="col">
+                                <div class="form-group">
+                                  <label>Ancien mot de passe</label>
+                                  <input class="form-control" type="password" formControlName="oldPassword"
+                                    placeholder="••••••">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col">
+                                <div class="form-group">
+                                  <label>Nouveau mot de passe</label>
+                                  <input class="form-control" type="password" formControlName="newPassword"
+                                    placeholder="••••••">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="form-group">
+                                <label>Confirm Password</label>
+                                <input
+                                  type="password"
+                                  formControlName="confirmPassword"
+                                  class="form-control"
+                                  [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }"
+                                />
+                                <div
+                                  *ngIf="submitted && f['confirmPassword'].errors"
+                                  class="invalid-feedback"
+                                >
+                                  <div *ngIf="f['confirmPassword'].errors['required']">
+                                    Confirm Password is required
+                                  </div>
+                                  <div *ngIf="f['confirmPassword'].errors['matching']">
+                                    Confirm Password does not match
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col d-flex justify-content-end">
+                              <button class="btn btn-primary" type="submit" (click)="changepassword1()">Sauvegarder
+                                Mdp</button>
+                            </div>
+                          </div>
+                        </form>
+                        &nbsp;&nbsp;
+                      </div>
+                      <div class="row">
+                        <div class="col d-flex justify-content-end">
+                          <button class="btn btn-primary" type="submit" (click)="update1()">Sauvegarder</button>
+                        </div>
+                      </div>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-3 mb-3">
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="px-xl-3">
+                <button (click)="logout()" class="btn btn-block btn-secondary">
+                  <i class="fa fa-sign-out"></i>
+                  <span>Déconnecter</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
